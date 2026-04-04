@@ -23,6 +23,8 @@ async def main():
     config = QuicConfiguration(is_client=True)
     config.verify_mode = False
 
+    config.congestion_control_algorithm = "reno"
+
     start = time.time()
     async with connect("127.0.0.1", 4433, configuration=config,
                        create_protocol=FileTransferClientProtocol) as client:
@@ -33,7 +35,11 @@ async def main():
         fct = (time.time() - start) * 1000
         size_mb = len(client.received_data) / (1024 * 1024)
         goodput = (size_mb * 8) / (fct / 1000)
-        result = {"fct_ms": round(fct, 2), "size_mb": round(size_mb, 3), "goodput_mbps": round(goodput, 2)}
+        result = {
+            "fct_ms": round(fct, 2),
+            "size_mb": round(size_mb, 3),
+            "goodput_mbps": round(goodput, 2)
+        }
         print(json.dumps(result))
 
 asyncio.run(main())

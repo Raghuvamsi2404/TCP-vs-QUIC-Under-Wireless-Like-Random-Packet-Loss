@@ -1,303 +1,201 @@
-# TCP-vs-QUIC-Under-Wireless-Like-Random-Packet-Loss
-EE6750 - Transport over Wireless Networks
-
-## Milestones Schedule 
-
-- Milestone 1 - Project Checkpoint
-
-   - 10-slide narrated presentation with full rubric alignment
-  
-   - Problem statement, layered reasoning, hypotheses, experimental design
-     
-   - WSL2 + tc netem environment set up and working
-
-   - TCP baseline experiments completed across all 5 loss rates
-      
-   - Real data chart (TCP throughput vs packet loss) generated and embedded
-      
-   - GitHub repo live with README, scripts, and plot_results.py documented
-     
-- Milestone 2 - Full Data Collection & Analysis
-
-  - QUIC (aioquic) server and client fully working and tested
-
-  - QUIC file transfer experiment run across all 5 loss rates (0%, 1%, 3%, 5%, 10%)
-  
-  - Both TCP and QUIC run 10 trials each per loss rate equals to 100 total runs
-
-  - Side-by-side comparison charts: TCP vs QUIC throughput
-
-  - Flow Completion Time (FCT) measured and compared for both
-
-  - Retransmission counts collected and compared
-
-  - CDF plots of latency and FCT generated, beyond just averages
-
-  - 95% confidence intervals calculated for all metrics
-  
-- Milestone 3 - Final Report & Presentation
-    
-  - Full written report covering: introduction, methodology, results, analysis, conclusions
-  
-  - All final graphs embedded with proper interpretation
-
-  - Hypotheses H1, H2, H3 confirmed or rejected with data evidence
-  
-  - Limitations section: loopback vs real wireless, netem model constraints
-  
-  - Updated GitHub repo with all final scripts and data
-
-# Milestone 1
-
-## Linux 
-
-- We set up Windows Subsystem for Linux (wsl --install)
-
-    - Default account: adminlinux
-
-    - Password: 31257363
-
-- Update WSL (sudo apt update)
-
-`sudo apt install iproute2 iperf3 python3 python3-pip -y`
-
-## Setting up, working directory 
-
-`mkdir tcp-vs-quic`
-
-`cd tcp-vs-quic`
-
-`python3 -m venv venv`
-
-- Activate Virtual Environment
-
-`source venv/bin/activate`
-
- - Install aioquic inside the Virtual Environment
-
-`pip install aioquic`
-
-- Using requiremnt.txt 
-
-`nano requirements.txt`
-
-`pip install -r requirements.txt --break-system-packages`
-  
-## TCP throughput experiment at different loss rates
-
-- Step 1: We navigated to the project route in two different terminals
-
-`cd tcp-vs-quic`
-
-`source venv/bin/activate`
-
-- Step 2: Execution from two terminals
-
-    - Terminal 1 - starts iperf3 server:
- 
-      `iperf3 -s`
-
-      <img width="1063" height="950" alt="image" src="/screenshots/iperf3 -s.png" />
-
-    - Terminal 2 - sequential test runs:
-
-    ```
-    # 0% loss - clean baseline
-    sudo tc qdisc add dev lo root netem loss 0%
-    iperf3 -c 127.0.0.1 -t 10 -J > result_0.json
-
-    # 1% loss
-    sudo tc qdisc change dev lo root netem loss 1%
-    iperf3 -c 127.0.0.1 -t 10 -J > result_1.json
-
-    # 3% loss
-    sudo tc qdisc change dev lo root netem loss 3%
-    iperf3 -c 127.0.0.1 -t 10 -J > result_3.json
-
-    # 5% loss
-    sudo tc qdisc change dev lo root netem loss 5%
-    iperf3 -c 127.0.0.1 -t 10 -J > result_5.json
-
-    # 10% loss
-    sudo tc qdisc change dev lo root netem loss 10%
-    iperf3 -c 127.0.0.1 -t 10 -J > result_10.json
-
-    # Final clean up
-    sudo tc qdisc del dev lo root
-    ```
-
-    <img width="1063" height="950" alt="image" src="/screenshots/tc-qdisc-tests.png" />
-
-- Step 3 - Results plots
-
-    - plot_results.py (We used nano to create and edit the plot_results.py file)
-
-    `nano plot_results.py` and then ctr + X to exit and Y to save. 
-    
-    To verify successful file save we used:
-
-    `ls` - To list files in the directory.
-            
-    `cat plot_results.py` - To display the files. 
-
-    Then we followed this steps to display the result:
-
-    `pip install matplotlib`
-
-    `python3 plot_results.py`
-
-    `cp early_results.png /mnt/c/Users/ADMIN/Desktop/` - To transfer the plot to windows for easy access. 
-
-    <img width="1063" height="950" alt="image" src="/screenshots/early_results.png" />
-    
-## Milestone 1 Presentation 
-
-[EE6750_Project_Group2.pdf](/milestones/one/EE6750_Project_Group2.pdf)
-
-[Zipped_code_milestone_1](/milestones/one/TCP-vs-QUIC-Under-Wireless-Like-Random-Packet-Loss.zip)
-
-# Milestone 2
-
-## Navigating to WSL terminal root directory 
-
-`cd tcp-vs-quic`
-
-`source venv/bin/activate`
-
-- Verified aioquic installation
-
-`python3 -c "import aioquic; print('aioquic ready')"`
-
-<img width="1063" height="950" alt="image" src="/screenshots/aioquic_ready.png" />
-
-## Setting up SSL certificates required for QUIC
-
-`openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem -days 365 -nodes -subj "/CN=localhost"`
-
-<img width="1063" height="950" alt="image" src="/screenshots/ssl_cert_generation.png" />
-
-## Setting up QUIC server
-
-`nano quic_server.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/quic_server.png" />
-
-## Setting up QUIC client
-
-`nano quic_client.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/quic_client.png" />
-
-- Test file:
-
-  - We're using a test pdf file of 10.1 mb from open file (Cartographic Perspectives) 
-
-  - https://cartographicperspectives.org/index.php/journal/article/view/cp13-full/pdf 
-
-  - We copy our test pdf file to the 'testfile.bin'
-
-  `cp /mnt/c/Users/ADMIN/Desktop/pkpadmin_1008-4741-1-CE.pdf ~/tcp-vs-quic/testfile.bin`
-
-  `ls -lh ~/tcp-vs-quic/testfile.bin`
-
-  <img width="1063" height="950" alt="image" src="/screenshots/testfile_bin.png" />
-
-## QUIC Baseline Test (Loopback Functional Verification)
-
-- Terminal 1: Server
-
-`python3 quic_server.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/quic_server_test.png" />
-
-- Terminal 2: Client
-
-`python3 quic_client.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/quic_client_output.png" />
-
-## QUIC experiments at all 5 loss rates × 10 trials
-
-`nano run_quic_experiments.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/run_quic_experiments.png" />
-
-`python3 run_quic_experiments.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/run_quic_experiments_output.png" />
-
-<img width="1063" height="950" alt="image" src="/screenshots/run_quic_experiments_output2.png" />
-
-`cat quic_results.json | python3 -m json.tool | head -50`
-
-## TCP re-run at 10 trials per loss rate.
-
-`nano run_tcp_experiments.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/run_tcp_experiments.png" />
-
-- We stop the QUIC server (quic_server.py) and start the iperf3 server running in Terminal 1 first.
-
-`iperf3 -s`
-
-<img width="1063" height="950" alt="image" src="/screenshots/TCP_re-run_iperf3 -s.png" />
-
-- Terminal 2
-
-`python3 run_tcp_experiments.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/run_tcp_experiments.png" />
-
-`cat tcp_results.json | python3 -m json.tool`
-
-## Side-by-side charts, FCT, and goodput.
-
-`nano plot_comparison.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/plot_comparison.png" />
-
-`python3 plot_comparison.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/plot_comparison2.png" />
-
-- Transfering chart to my project root folder.
-
-`cp ~/tcp-vs-quic/comparison_charts.png /mnt/c/Users/ADMIN/Desktop/`
-
-<img width="1063" height="950" alt="image" src="/screenshots/comparison_charts.png" />
-
-## CDF and 95% Confidence Intervals
-
-`nano plot_cdf_ci.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/nano_plot_cdf_ci.png" />
-
-`python3 plot_cdf_ci.py`
-
-<img width="1063" height="950" alt="image" src="/screenshots/plot_cdf_ci.png" />
-
-- Copy output to project root.
-
-`cp ~/tcp-vs-quic/cdf_charts.png /mnt/c/Users/ADMIN/Desktop/`
-
-<img width="1063" height="950" alt="image" src="/screenshots/cdf_charts.png" />
-
-`cp ~/tcp-vs-quic/ci95_charts.png /mnt/c/Users/ADMIN/Desktop/`
-
-<img width="1063" height="950" alt="image" src="/screenshots/ci95_charts.png" />
-
-## Transfering json outputs to project root. 
-
-<img width="1063" height="950" alt="image" src="/screenshots/json_files.png" />
-
-`cp ~/tcp-vs-quic/quic_results.json /mnt/c/Users/ADMIN/Desktop/`
-
-[quic_results.json](/milestones/two/quic_results.json)
-
-`cp ~/tcp-vs-quic/tcp_results.json /mnt/c/Users/ADMIN/Desktop/`
-
-[tcp_results.json](/milestones/two/tcp_results.json)
-
-## Milestone 2 Code state
-
-[Zipped_code_milestone_2](/milestones/two/TCP-vs-QUIC-Under-Wireless-Like-Random-Packet-Loss.zip)
+# TCP vs QUIC Under Wireless-Like Random Packet Loss
+**EE6750 — Transport over Wireless Networks**
+
+**Team:** Raghuvamsi Lekkala (Implementation, experiments, data collection) | Krishna Sri Mannam (Experiment design, analysis, report writing)
+
+## Research Question
+
+How does QUIC compare to TCP in throughput and flow completion time when transferring a 10 MB file under random wireless-like packet loss rates of 0%, 1%, 3%, 5%, and 10%?
+
+
+## Repository Structure
+
+```
+TCP-vs-QUIC-Under-Wireless-Like-Random-Packet-Loss/
+├── tcp_server.py                  # TCP file transfer server (Python sockets)
+├── run_tcp_experiments.py         # Runs 10 TCP trials per loss rate → tcp_results.json
+├── quic_server.py                 # QUIC file transfer server (aioquic)
+├── quic_client.py                 # QUIC file transfer client (aioquic, CC = Reno)
+├── run_quic_experiments.py        # Runs 10 QUIC trials per loss rate → quic_results.json
+├── plot_comparison.py             # 4-panel comparison chart → comparison_charts.png
+├── plot_cdf_ci.py                 # CDF + CI charts + FCT CDF → 3 PNG files
+├── requirements.txt               # Python dependencies
+└── results/
+    ├── testfile.bin               # 10.124 MB test file used for all transfers
+    ├── quic_results.json          # QUIC experiment results (50 trials)
+    └── tcp_results.json           # TCP experiment results (50 trials)
+```
+
+## Congestion Control — Design Decision
+
+Both protocols are configured to use **Reno** congestion control:
+
+- **TCP:** Linux kernel default on WSL2 loopback is Reno
+- **QUIC:** `config.congestion_control_algorithm = "reno"` set explicitly in `quic_client.py`
+
+This ensures the comparison isolates **transport protocol behavior** (how TCP and QUIC respond to loss), not congestion control algorithm differences. Without this, we would be comparing TCP Reno against QUIC's unspecified default.
+
+## TCP Methodology — Why We Use Python Sockets
+
+In Milestone 1 TCP experiment was used `iperf3 -t 10` (a 10-second throughput flood). This did not match our research question, which asks about transferring a specific 10 MB file.
+
+In Milestone 2, TCP was rewritten to use Python sockets (`tcp_server.py` + `run_tcp_experiments.py`):
+- Server loads `testfile.bin` (10.124 MB) and sends it on each connection
+- Client connects, receives all bytes, records FCT and goodput
+- This mirrors exactly how `quic_server.py` and `quic_client.py` work
+- Both protocols now produce identical output: `fct_ms`, `size_mb`, `goodput_mbps`
+
+## Setup Instructions
+
+### 1. Install WSL2 (Windows only)
+```bash
+wsl --install
+```
+
+### 2. Install system dependencies
+```bash
+sudo apt update
+sudo apt install iproute2 python3 python3-pip python3-venv -y
+```
+
+### 3. Create working directory and virtual environment
+```bash
+mkdir tcp-vs-quic
+cd tcp-vs-quic
+python3 -m venv venv
+source venv/bin/activate
+```
+
+### 4. Install Python dependencies
+```bash
+pip install -r requirements.txt
+```
+
+### 5. Generate TLS certificates for QUIC
+```bash
+openssl req -x509 -newkey rsa:2048 -keyout key.pem -out cert.pem \
+  -days 365 -nodes -subj "/CN=localhost"
+```
+
+### 6. Prepare test file
+Place a ~10 MB file as `testfile.bin` in the working directory:
+```bash
+cp /mnt/c/Users/user/Desktop/tcp2/file.pdf ~/tcp-vs-quic/testfile.bin
+ls -lh ~/tcp-vs-quic/testfile.bin
+```
+
+## Running the Experiments
+
+### TCP Experiments
+
+**Terminal 1 — Start TCP server:**
+```bash
+cd ~/tcp-vs-quic && source venv/bin/activate
+python3 tcp_server.py
+```
+Expected: `TCP server listening on port 5201...`
+
+**Terminal 2 — Run all 50 TCP trials:**
+```bash
+cd ~/tcp-vs-quic && source venv/bin/activate
+sudo tc qdisc del dev lo root 2>/dev/null || true
+python3 run_tcp_experiments.py
+```
+Results saved to `tcp_results.json` automatically.
+
+### QUIC Experiments
+
+**Terminal 1 — Start QUIC server:**
+```bash
+cd ~/tcp-vs-quic && source venv/bin/activate
+python3 quic_server.py
+```
+Expected: `QUIC server running on port 4433...`
+
+**Terminal 2 — Run all 50 QUIC trials:**
+```bash
+cd ~/tcp-vs-quic && source venv/bin/activate
+python3 run_quic_experiments.py
+```
+Results saved to `quic_results.json` automatically.
+
+### Verify Both JSON Files Match Structure
+```bash
+python3 -c "
+import json
+tcp = json.load(open('tcp_results.json'))
+quic = json.load(open('quic_results.json'))
+for loss in ['0','1','3','5','10']:
+    print(f'Loss {loss}%')
+    print(f'  TCP  keys: {list(tcp[loss][0].keys())}')
+    print(f'  QUIC keys: {list(quic[loss][0].keys())}')
+"
+```
+Expected: both show `['fct_ms', 'size_mb', 'goodput_mbps']` for all 5 loss rates.
+
+## Generating Plots
+
+```bash
+python3 plot_comparison.py   # → comparison_charts.png (4 panels)
+python3 plot_cdf_ci.py       # → cdf_charts.png, ci95_charts.png, fct_cdf.png
+```
+
+### Output Charts
+
+| File | Description |
+|------|-------------|
+| `comparison_charts.png` | 4-panel: absolute goodput, normalized degradation, FCT comparison, normalized FCT |
+| `cdf_charts.png` | CDF of goodput for TCP and QUIC across all loss rates |
+| `ci95_charts.png` | Goodput with 95% confidence intervals for both protocols |
+| `fct_cdf.png` | CDF of flow completion time for TCP and QUIC across all loss rates |
+
+## Experiment Design Summary
+
+| Parameter | Value |
+|-----------|-------|
+| Loss rates | 0%, 1%, 3%, 5%, 10% |
+| Trials per loss rate | 10 |
+| Total runs | 100 (50 TCP + 50 QUIC) |
+| Transfer size | 10.124 MB |
+| TCP implementation | Python sockets, kernel TCP, Reno CC |
+| QUIC implementation | aioquic (userspace), Reno CC (explicit) |
+| Loss injection | tc netem on loopback interface (lo) |
+| Metrics | Goodput (Mbps), FCT (ms), CDF, 95% CI |
+
+## Hypotheses
+
+**H1 (Throughput):** QUIC will maintain higher normalized throughput than TCP as packet loss increases. This is supported by our data.
+
+**H2 (FCT):** QUIC will complete the file transfer more consistently than TCP under loss. This also is supported by our data.
+
+**H3 (Retransmissions):** TCP retransmission count will grow faster than QUIC's under increasing loss. — Not directly measured; inferred from FCT variance.
+
+## Limitations
+
+- **Loopback vs real wireless:** tc netem injects random loss on the loopback interface, not a real wireless channel. Real wireless has correlated loss, fading, and interference not modeled here.
+- **Implementation asymmetry:** TCP uses the Linux kernel stack; QUIC uses Python/aioquic userspace. Absolute goodput numbers are not directly comparable — normalized comparisons are used instead.
+- **No retransmission counter:** aioquic does not expose retransmission counts directly; H3 is inferred from FCT behavior.
+- **Small sample size:** 10 trials per loss rate is sufficient for trends but limits statistical power.
+
+## Milestones
+
+### Milestone 1 — Project Checkpoint
+- WSL2 + tc netem environment set up
+- TCP baseline experiments (iperf3, time-based) across all 5 loss rates
+- Early results chart generated
+- GitHub repo initialized
+
+### Milestone 2 — Full Data Collection and Analysis
+- TCP rewritten to Python socket-based 10 MB file transfer (matches research question)
+- Congestion control explicitly matched: both protocols use Reno
+- QUIC experiments run: 50 trials across 5 loss rates
+- TCP experiments re-run: 50 trials across 5 loss rates
+- All results include FCT, size, and goodput
+- 4 charts generated: comparison, CDF, CI, FCT CDF
+- JSON structure verified to match between protocols
+
+### Milestone 3 — Final Report and Presentation
+- Full written report with introduction, methodology, results, analysis, conclusions
+- All hypotheses confirmed or rejected with data evidence
+- Limitations section included
+- Final GitHub repo with all scripts, data, and charts

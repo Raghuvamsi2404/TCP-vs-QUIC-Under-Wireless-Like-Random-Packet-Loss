@@ -1,0 +1,262 @@
+{
+  "0": [
+    {
+      "fct_ms": 31455.92,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.57
+    },
+    {
+      "fct_ms": 36025.15,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.25
+    },
+    {
+      "fct_ms": 31171.42,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.6
+    },
+    {
+      "fct_ms": 33373.84,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.43
+    },
+    {
+      "fct_ms": 31678.98,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.56
+    },
+    {
+      "fct_ms": 32227.01,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.51
+    },
+    {
+      "fct_ms": 34899.16,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.32
+    },
+    {
+      "fct_ms": 31862.85,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.54
+    },
+    {
+      "fct_ms": 31133.9,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.6
+    },
+    {
+      "fct_ms": 31291.79,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.59
+    }
+  ],
+  "1": [
+    {
+      "fct_ms": 32593.17,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.48
+    },
+    {
+      "fct_ms": 34707.39,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.33
+    },
+    {
+      "fct_ms": 35723.43,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.27
+    },
+    {
+      "fct_ms": 32426.42,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.5
+    },
+    {
+      "fct_ms": 33893.4,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.39
+    },
+    {
+      "fct_ms": 34617.31,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.34
+    },
+    {
+      "fct_ms": 32162.09,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.52
+    },
+    {
+      "fct_ms": 30953.44,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.62
+    },
+    {
+      "fct_ms": 31375.23,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.58
+    },
+    {
+      "fct_ms": 30084.91,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.69
+    }
+  ],
+  "3": [
+    {
+      "fct_ms": 31768.93,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.55
+    },
+    {
+      "fct_ms": 31727.09,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.55
+    },
+    {
+      "fct_ms": 50430.37,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.61
+    },
+    {
+      "fct_ms": 51412.63,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.58
+    },
+    {
+      "fct_ms": 44194.16,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.83
+    },
+    {
+      "fct_ms": 43950.81,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.84
+    },
+    {
+      "fct_ms": 39279.71,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.06
+    },
+    {
+      "fct_ms": 42619.64,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.9
+    },
+    {
+      "fct_ms": 42453.95,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.91
+    },
+    {
+      "fct_ms": 40205.04,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.01
+    }
+  ],
+  "5": [
+    {
+      "fct_ms": 40354.96,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.01
+    },
+    {
+      "fct_ms": 45187.4,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.79
+    },
+    {
+      "fct_ms": 43124.61,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.88
+    },
+    {
+      "fct_ms": 37869.85,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.14
+    },
+    {
+      "fct_ms": 39150.72,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.07
+    },
+    {
+      "fct_ms": 37129.23,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.18
+    },
+    {
+      "fct_ms": 41952.57,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.93
+    },
+    {
+      "fct_ms": 39996.21,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.02
+    },
+    {
+      "fct_ms": 36412.58,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.22
+    },
+    {
+      "fct_ms": 34763.45,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.33
+    }
+  ],
+  "10": [
+    {
+      "fct_ms": 50428.33,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.61
+    },
+    {
+      "fct_ms": 42814.19,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.89
+    },
+    {
+      "fct_ms": 40144.01,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.02
+    },
+    {
+      "fct_ms": 39171.52,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.07
+    },
+    {
+      "fct_ms": 43327.51,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.87
+    },
+    {
+      "fct_ms": 44597.95,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.82
+    },
+    {
+      "fct_ms": 42830.04,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.89
+    },
+    {
+      "fct_ms": 38613.88,
+      "size_mb": 10.124,
+      "goodput_mbps": 2.1
+    },
+    {
+      "fct_ms": 45754.46,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.77
+    },
+    {
+      "fct_ms": 47075.81,
+      "size_mb": 10.124,
+      "goodput_mbps": 1.72
+    }
+  ]
+}
