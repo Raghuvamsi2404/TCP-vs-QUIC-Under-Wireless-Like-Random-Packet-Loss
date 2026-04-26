@@ -26,7 +26,7 @@ TCP-vs-QUIC-Under-Wireless-Like-Random-Packet-Loss/
     └── tcp_results.json           # TCP experiment results (50 trials)
 ```
 
-## Congestion Control — Design Decision
+## Congestion Control - Design Decision
 
 Both protocols are configured to use **Reno** congestion control:
 
@@ -35,7 +35,7 @@ Both protocols are configured to use **Reno** congestion control:
 
 This ensures the comparison isolates **transport protocol behavior** (how TCP and QUIC respond to loss), not congestion control algorithm differences. Without this, we would be comparing TCP Reno against QUIC's unspecified default.
 
-## TCP Methodology — Why We Use Python Sockets
+## TCP Methodology - Why We Use Python Sockets
 
 In Milestone 1 TCP experiment was used `iperf3 -t 10` (a 10-second throughput flood). This did not match our research question, which asks about transferring a specific 10 MB file.
 
@@ -88,14 +88,14 @@ ls -lh ~/tcp-vs-quic/testfile.bin
 
 ### TCP Experiments
 
-**Terminal 1 — Start TCP server:**
+**Terminal 1 - Start TCP server:**
 ```bash
 cd ~/tcp-vs-quic && source venv/bin/activate
 python3 tcp_server.py
 ```
 Expected: `TCP server listening on port 5201...`
 
-**Terminal 2 — Run all 50 TCP trials:**
+**Terminal 2 - Run all 50 TCP trials:**
 ```bash
 cd ~/tcp-vs-quic && source venv/bin/activate
 sudo tc qdisc del dev lo root 2>/dev/null || true
@@ -105,14 +105,14 @@ Results saved to `tcp_results.json` automatically.
 
 ### QUIC Experiments
 
-**Terminal 1 — Start QUIC server:**
+**Terminal 1 - Start QUIC server:**
 ```bash
 cd ~/tcp-vs-quic && source venv/bin/activate
 python3 quic_server.py
 ```
 Expected: `QUIC server running on port 4433...`
 
-**Terminal 2 — Run all 50 QUIC trials:**
+**Terminal 2 - Run all 50 QUIC trials:**
 ```bash
 cd ~/tcp-vs-quic && source venv/bin/activate
 python3 run_quic_experiments.py
@@ -179,13 +179,13 @@ python3 plot_cdf_ci.py       # → cdf_charts.png, ci95_charts.png, fct_cdf.png
 
 ## Milestones
 
-### Milestone 1 — Project Checkpoint
+### Milestone 1 - Project Checkpoint
 - WSL2 + tc netem environment set up
 - TCP baseline experiments (iperf3, time-based) across all 5 loss rates
 - Early results chart generated
 - GitHub repo initialized
 
-### Milestone 2 — Full Data Collection and Analysis
+### Milestone 2 - Full Data Collection and Analysis
 - TCP rewritten to Python socket-based 10 MB file transfer (matches research question)
 - Congestion control explicitly matched: both protocols use Reno
 - QUIC experiments run: 50 trials across 5 loss rates
@@ -194,7 +194,7 @@ python3 plot_cdf_ci.py       # → cdf_charts.png, ci95_charts.png, fct_cdf.png
 - 4 charts generated: comparison, CDF, CI, FCT CDF
 - JSON structure verified to match between protocols
 
-### Milestone 3 — Final Report and Presentation
+### Milestone 3 - Final Report and Presentation
 - Full written report with introduction, methodology, results, analysis, conclusions
 - All hypotheses confirmed or rejected with data evidence
 - Limitations section included
