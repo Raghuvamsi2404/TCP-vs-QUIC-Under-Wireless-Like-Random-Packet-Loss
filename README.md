@@ -1,5 +1,5 @@
 # TCP vs QUIC Under Wireless-Like Random Packet Loss
-**EE6750 — Transport over Wireless Networks**
+**EE6750 - Transport over Wireless Networks**
 
 **Team:** Raghuvamsi Lekkala (Implementation, experiments, data collection) | Krishna Sri Mannam (Experiment design, analysis, report writing)
 
