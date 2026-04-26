@@ -196,6 +196,6 @@ python3 plot_cdf_ci.py       # → cdf_charts.png, ci95_charts.png, fct_cdf.png
 
 ### Milestone 3 - Final Report and Presentation
 - Full written report with introduction, methodology, results, analysis, conclusions
-- All hypotheses confirmed or rejected with data evidence
+- All hypotheses confirmed with data evidence
 - Limitations section included
 - Final GitHub repo with all scripts, data, and charts
